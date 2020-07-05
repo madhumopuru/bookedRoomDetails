@@ -116,14 +116,6 @@ export class AppComponent implements OnInit {
       return;
     }
     params["userName"] = this.userNameForm.value;
-
-    if(!this.bookingroomNameForm.valid) {
-      this.genericAlert("Invalid Booking Room","Please Select Room No");
-      return;
-    }
-    
-    params["bookedroomNo"] = this.bookingroomNameForm.value;
-
     if (this.bookingDateForm.value === null) {
       this.genericAlert("Invalid Date", "Please Select Date");
       return;
@@ -158,6 +150,14 @@ export class AppComponent implements OnInit {
 
    params["bookedtoTime"] = this.totimeForm.value;
           
+    if(!this.bookingroomNameForm.valid) {
+      this.genericAlert("Invalid Booking Room","Please Select Room No");
+      return;
+    }
+    
+    params["bookedroomNo"] = this.bookingroomNameForm.value;
+
+   
 
     if(!this.reasonForm.valid) {
       this.genericAlert("Invalid Reason","Please Select Reason");
@@ -197,10 +197,10 @@ export class AppComponent implements OnInit {
   }
   clearForm(){
     this.userNameForm = new FormControl();
-    this.bookingroomNameForm = new FormControl();
     this.bookingDateForm = new FormControl();
     this.totimeForm = new FormControl();
     this.fromtimeForm = new FormControl();
+    this.bookingroomNameForm = new FormControl();
     this.reasonForm = new FormControl();
     this.minimumstarttime;
     this.endtimee
