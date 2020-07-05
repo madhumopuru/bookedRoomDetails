@@ -2,38 +2,41 @@ import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import * as moment from 'moment';
 import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table'
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table'
+import { retry } from "rxjs/operators";
 
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  
+
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {
   title = 'bookMeeting';
   minimumstarttime;
   endtimee;
-  timedisable= true;
+  timedisable = true;
   minimumDate = new Date();
 
   roomNames: roomName[] = [
     { value: "Room Number-1" },
-    { value: "Room Number-2"},
+    { value: "Room Number-2" },
     { value: "Room Number-3" },
     { value: "Room Number-4" },
-    { value: "Room Number-5"},
+    { value: "Room Number-5" },
     { value: "Room Number-6" },
     { value: "Room Number-7" },
-    { value: "Room Number-8"},
+    { value: "Room Number-8" },
     { value: "Room Number-9" },
-    { value: "Room Number-10" }
+    { value: "Room Number-10" },
   ];
+
+
 
   myFilter = (d: Date | null): boolean => {
     const day = (d || new Date()).getDay();
@@ -48,71 +51,72 @@ export class AppComponent implements OnInit {
   fromtimeForm = new FormControl();
   reasonForm = new FormControl();
 
-  constructor(public dialog: MatDialog) {}
-  bookedRoomArry=[]
+  constructor(public dialog: MatDialog) { }
+  bookedRoomArry = []
 
-  displayedColumns: string[] = ['bookedcount', 'userName', 'bookedroomNo', 'bookedDate', 'bookedfromTime', 'bookedtoTime', 'boodedReason', 'columndelete']; // pagination code
+  displayedColumns: string[] = ['bookedcount', 'userName', 'bookedroomNo', 'bookedDate', 'bookedfromTime',
+    'bookedtoTime', 'boodedReason', 'Status', 'columndelete']; // pagination code
 
 
-  bookedData:bookedDetails[] = [];
+  bookedData: bookedDetails[] = [];
 
   dataSource = new MatTableDataSource<bookedDetails>(this.bookedData);
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  count=0;
-  ngOnInit(){
-    localStorage.clear();
-    setTimeout(() => this.dataSource.paginator = this.paginator); 
-     
+  count = 0;
+  ngOnInit() {
+    setTimeout(() => this.dataSource.paginator = this.paginator);
   }
-  tableData(){
-    let result = JSON.parse(localStorage.getItem('itemsArray'));
-    this.bookedData = result
-    this.dataSource = new MatTableDataSource<bookedDetails>(this.bookedData);
+  tableData() {
+    // let result = JSON.parse(localStorage.getItem('itemsArray'));
+    // this.bookedData = result
+    this.dataSource = new MatTableDataSource<bookedDetails>(this.bookedRoomArry);
     this.dataSource.paginator = this.paginator
   }
 
-  deleteBookedroom(elm){
+  deleteBookedroom(elm) {
     const dialogRef = this.dialog.open(AlertDialogComponent, {
       minWidth: '250px',
-      data: {  body: "Are you sure you want to delete Booked Room?", actions: ["Cance","OK"] }
+      data: { body: 'Are you sure you want to delete Booked Room?', actions: ['Cancel', 'OK'] }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result === "OK") {
-        this.delete(elm)
+      if (result === 'OK') {
+        this.delete(elm);
       }
     });
   }
 
   delete(elm) {
-   // console.log(elm)
-    this.dataSource.data = this.dataSource.data
-      .filter(i => i !== elm)
-      .map((i, idx) => (i.bookedcount = (idx + 1), i));
-      localStorage.setItem('itemsArray', JSON.stringify( this.dataSource.data));
-      this.count = this.count - 1;
+
+    let i = this.bookedRoomArry.findIndex(value => {
+      return elm.id === value.id;
+    });
+
+    this.bookedRoomArry.splice(i, 1);
+
+    this.tableData();
   }
 
 
-  visibleDate(){
-    if(this.minimumstarttime != undefined){
+  visibleDate() {
+    if (this.minimumstarttime != undefined) {
       this.timedisable = false;
     }
   }
 
-  genericAlert(title,body) {
+  genericAlert(title, body) {
     this.dialog.open(AlertDialogComponent, {
       minWidth: '250px',
-      data: {title: title,body:body,actions:["Ok"]}
+      data: { title: title, body: body, actions: ["Ok"] }
     });
   }
 
-  submitBooking(){
+  submitBooking() {
 
     let params = {};
 
-    if(!this.userNameForm.valid) {
-      this.genericAlert("Invalid User Name","Please Enter User Name");
+    if (!this.userNameForm.valid) {
+      this.genericAlert("Invalid User Name", "Please Enter User Name");
       return;
     }
     params["userName"] = this.userNameForm.value;
@@ -135,78 +139,140 @@ export class AppComponent implements OnInit {
       this.genericAlert("Invalid To Time", "Please Select To Time");
       return;
     }
-    
+
 
     var startTime = moment(this.fromtimeForm.value, 'hh:mm a');
     var endTime = moment(this.totimeForm.value, 'hh:mm: a');
     var totalHours = (endTime.diff(startTime, 'hours'));
     var totalMinutes = endTime.diff(startTime, 'minutes');
     var clearMinutes = totalMinutes % 60;
-    let totalminiut= totalHours*60+clearMinutes
-   if(30 > totalminiut){
-    this.genericAlert("Invalid Booking Time","Booking Time Minimum 30 Minitues");
-    return;
-   }
-
-   params["bookedtoTime"] = this.totimeForm.value;
-          
-    if(!this.bookingroomNameForm.valid) {
-      this.genericAlert("Invalid Booking Room","Please Select Room No");
+    let totalminiut = totalHours * 60 + clearMinutes
+    if (30 > totalminiut) {
+      this.genericAlert("Invalid Booking Time", "Booking Time Minimum 30 Minitues");
       return;
     }
-    
+
+    params["bookedtoTime"] = this.totimeForm.value;
+
+    if (!this.bookingroomNameForm.valid) {
+      this.genericAlert("Invalid Booking Room", "Please Select Room No");
+      return;
+    }
+
     params["bookedroomNo"] = this.bookingroomNameForm.value;
 
-   
-
-    if(!this.reasonForm.valid) {
-      this.genericAlert("Invalid Reason","Please Select Reason");
+    if (!this.reasonForm.valid) {
+      this.genericAlert("Invalid Reason", "Please Select Reason");
       return;
     }
     params["boodedReason"] = this.reasonForm.value;
 
-    this.count=this.count+1;
+    this.count = this.count + 1;
     params["bookedcount"] = this.count;
 
-    this.bookedRoomArry.push(params)
-   // console.log(this.bookedRoomArry)
-   // this.bookedData=this.bookedRoomArry
-   // console.log(this.empDailyreoprtlist)
+    let starttime = moment(this.fromtimeForm.value, 'hh:mm a');
 
-   var oldItems = JSON.parse(localStorage.getItem('itemsArray')) || [];
+    let startMoment = moment(this.bookingDateForm.value)
+      .hour(starttime.hour())
+      .minute(starttime.minute());
 
-   oldItems.push(params);
+    let endtime = moment(this.totimeForm.value, 'hh:mm a');
 
-   localStorage.setItem('itemsArray', JSON.stringify(oldItems));
-  
-    this.tableData()
+    let endMoment = moment(this.bookingDateForm.value)
+      .hour(endtime.hour())
+      .minute(endtime.minute());
+
+    params["startMoment"] = startMoment;
+    params["endMoment"] = endMoment;
+    params["id"] = new Date().getTime();
+
+    this.bookedRoomArry.push(params);
+
+    this.tableData();
 
     const dialogRef = this.dialog.open(AlertDialogComponent, {
       minWidth: '250px',
-      data: {  body: "Successfully you have booked Room", actions: ["OK"] }
+      data: { body: "Successfully you have booked Room", actions: ["OK"] }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === "OK") {
         this.clearForm()
       }
-      else{
+      else {
         this.clearForm()
       }
     });
   }
-  clearForm(){
+  clearForm() {
     this.userNameForm = new FormControl();
+    this.bookingroomNameForm = new FormControl();
     this.bookingDateForm = new FormControl();
     this.totimeForm = new FormControl();
     this.fromtimeForm = new FormControl();
-    this.bookingroomNameForm = new FormControl();
     this.reasonForm = new FormControl();
     this.minimumstarttime;
     this.endtimee
-    this.timedisable= true;
+    this.timedisable = true;
 
   }
+  getRooms() {
+
+    let starttime = moment(this.fromtimeForm.value, 'hh:mm a');
+
+    let startMoment = moment(this.bookingDateForm.value)
+      .hour(starttime.hour())
+      .minute(starttime.minute());
+
+    let endtime = moment(this.totimeForm.value, 'hh:mm a');
+
+    let endMoment = moment(this.bookingDateForm.value)
+      .hour(endtime.hour())
+      .minute(endtime.minute());
+
+    if (this.bookingDateForm.value === null || this.fromtimeForm.value === null || this.totimeForm.value === null) {
+      return [];
+    }
+
+    let room = this.roomNames.filter(value => {
+
+      let i = this.bookedRoomArry.findIndex(item => {
+
+        return (item.bookedroomNo === value.value) && (startMoment.isBetween(item.startMoment, item.endMoment, undefined, "[]") ||
+          endMoment.isBetween(item.startMoment, item.endMoment, undefined, "[]"));
+
+      });
+
+      return !(i > -1);
+
+    });
+
+    return room;
+
+  }
+  getRoomStatus(item) {
+
+    let current = moment();
+
+    if (current.isAfter(item.endMoment)) {
+      return "Finished";
+    }
+
+    if (current.isBetween(item.startMoment, item.endMoment, undefined, "[]")) {
+      return "In Use"
+    }
+
+    return "Booked"
+
+  }
+  getStatus(item) {
+
+    let current = moment();
+
+    return current.isBetween(item.startMoment, item.endMoment, undefined, "[]") || current.isAfter(item.endMoment);
+
+  }
+
 }
 
 export interface roomName {
@@ -215,14 +281,13 @@ export interface roomName {
 
 
 
-export interface bookedDetails{
+export interface bookedDetails {
   bookedcount: number;
-  userName: string; 
+  userName: string;
   bookedroomNo: string;
-  bookedDate: string; 
+  bookedDate: string;
   bookedfromTime: string;
-  bookedtoTime: string; 
-  boodedReason: string; 
+  bookedtoTime: string;
+  boodedReason: string;
 
 }
-
