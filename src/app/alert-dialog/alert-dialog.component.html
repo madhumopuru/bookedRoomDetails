@@ -1,0 +1,8 @@
+
+<div mat-dialog-content class="mat_dialog_alert">
+    <h1 mat-dialog-title>{{data.title}}</h1>
+    <p>{{data.body}}</p>
+  </div>
+  <div mat-dialog-actions class="mat_cation">
+    <button *ngFor="let item of data.actions" mat-button [mat-dialog-close]="item">{{item}}</button>
+  </div>

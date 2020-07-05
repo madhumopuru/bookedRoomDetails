@@ -1,0 +1,28 @@
+.mat-dialog-container{
+    padding: 0px 0px !important;
+    overflow: hidden !important;
+    .mat_dialog_alert{
+        margin: 0px !important;
+        padding: 15px !important;
+        h1{
+            margin-bottom: 18px !important;
+            font-size: 16px;
+            color: #000;
+            font-weight: normal;
+        }
+        p{
+            margin-bottom: 0px;
+            font-size: 14px;
+            color: #0c0c0c;
+            font-family: sans-serif;
+        }
+    }
+    .mat_cation{
+        padding: 8px 10px;
+        display: flex;
+        flex-wrap: wrap;
+        min-height: 0px;
+        align-items: center;
+        margin-bottom: 0px;
+    }
+}
