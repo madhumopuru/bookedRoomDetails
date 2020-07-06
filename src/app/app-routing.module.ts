@@ -1,16 +1,23 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
+import { BookedDetailsComponent } from './booked-details/booked-details.component';
+import { CreatemeetingroomComponent } from './createmeetingroom/createmeetingroom.component';
+
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/bookMeetingRoom',
+    redirectTo: '/createMeetingRoom',
     pathMatch: 'full'
   },
   {
-    path: 'bookMeetingRoom',
-    component: AppComponent,
+    path: 'createMeetingRoom',
+    component: CreatemeetingroomComponent,
+  },
+  {
+    path: 'meetingRoomDetails',
+    component: BookedDetailsComponent,
   },
 ];
 

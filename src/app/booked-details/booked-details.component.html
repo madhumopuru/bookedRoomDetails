@@ -1,0 +1,65 @@
+<div class="main">
+    <div class="schedule_details">
+      <h5>Booked Room Details for Meeting</h5>
+      <div class="mat-elevation">
+        <table mat-table [dataSource]="dataSource">
+  
+          <ng-container matColumnDef="bookedcount">
+            <th style="width:10%;" mat-header-cell *matHeaderCellDef>Sl no</th>
+            <td mat-cell *matCellDef="let element; let i = index;"> {{i+1}}</td>
+          </ng-container>
+  
+          <ng-container matColumnDef="userName">
+            <th mat-header-cell *matHeaderCellDef> user Name </th>
+            <td style="padding-right:8px;" mat-cell *matCellDef="let element">{{element.userName}} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="bookedroomNo">
+            <th mat-header-cell *matHeaderCellDef> Room Nmae </th>
+            <td style="padding-right:10px;" mat-cell *matCellDef="let element"> {{element.bookedroomNo}} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="bookedDate">
+            <th mat-header-cell *matHeaderCellDef> Booked Date </th>
+            <td mat-cell *matCellDef="let element">{{element.bookedDate}}</td>
+          </ng-container>
+  
+          <ng-container matColumnDef="bookedfromTime">
+            <th mat-header-cell *matHeaderCellDef> From Time </th>
+            <td mat-cell *matCellDef="let element">{{element.bookedfromTime}}</td>
+          </ng-container>
+  
+          <ng-container matColumnDef="bookedtoTime">
+            <th mat-header-cell *matHeaderCellDef> To Time </th>
+            <td mat-cell *matCellDef="let element">{{element.bookedtoTime}}</td>
+          </ng-container>
+  
+          <ng-container matColumnDef="boodedReason">
+            <th mat-header-cell *matHeaderCellDef> Reason </th>
+            <td mat-cell *matCellDef="let element">{{element.boodedReason}}</td>
+          </ng-container>
+  
+          <ng-container matColumnDef="Status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let element"  [ngClass]="{activef: getRoomStatus(element)==='Finished', 'activei':getRoomStatus(element)==='In Use', 'activeb':getRoomStatus(element)==='Booked'}">{{getRoomStatus(element)}}</td>
+          </ng-container>
+  
+          <ng-container matColumnDef="columndelete">
+            <th mat-header-cell *matHeaderCellDef> Delete </th>
+            <td mat-cell *matCellDef="let element"><span *ngIf="getStatus(element)">-</span>
+              <mat-icon *ngIf="!getStatus(element)" (click)="deleteBookedroom(element)" style="cursor: pointer;"><span
+                  class="material-icons">
+                  delete_outline
+                </span></mat-icon>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-error class="tablerr" *ngIf="dataSource.filteredData.length === 0">No data available</mat-error>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+    <button mat-raised-button color="primary" (click)="locationBack()">Back</button>
+  </div>

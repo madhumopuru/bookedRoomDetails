@@ -1,0 +1,66 @@
+.main{
+    width: calc(100% - 400px);
+    margin: 0px 200px;
+    float: left;
+    background: white;
+    box-shadow: 0px 1px 4px 2px #e2dfdf;
+    padding-bottom: 30px;
+    min-height: 100%;
+    .booking_meeting_header{
+        width: calc(100% - 0px);
+        padding-top: 3px;
+        h5{
+            text-align: center;
+            background: blue;
+            padding: 15px 20px;
+            color: white;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+    }
+    .booking_form_details{
+        width: calc(100% - 40px);
+        padding: 20px;
+        float: left;
+        .mat-form-field-appearance-legacy{
+            width: 33.333%;
+            float: left;
+            .mat-form-field-wrapper{
+                width: 80% !important;
+            }
+        }
+        .booking_time_details{
+            width: 33.333%;
+            float: left;
+            margin-top: 23px;
+            margin-bottom: 15px;
+            .todate{
+                width: 80%;
+                border: none;
+                border-bottom: 1px solid rgba(0,0,0,.42);
+                outline: none;
+            }
+            .fromdate{
+                width: 80%;
+                border: none;
+                border-bottom: 1px solid rgba(0,0,0,.42);
+                outline: none;
+            }
+
+        }
+        .form_submit{
+            width: 100%;
+            float: left;
+            text-align: center;
+            margin: 20px 0px;
+            .mat-raised-button{
+                min-width: 100px !important;
+                text-transform: uppercase;
+            }
+        }
+    }
+ 
+}
+
+
+

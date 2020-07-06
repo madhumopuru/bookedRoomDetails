@@ -17,11 +17,15 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
+import { BookedDetailsComponent } from './booked-details/booked-details.component';
+import { CreatemeetingroomComponent } from './createmeetingroom/createmeetingroom.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AlertDialogComponent
+    AlertDialogComponent,
+    BookedDetailsComponent,
+    CreatemeetingroomComponent
   ],
   imports: [
     BrowserModule,

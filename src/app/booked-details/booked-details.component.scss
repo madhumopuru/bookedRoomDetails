@@ -1,0 +1,87 @@
+.main{
+    width: calc(100% - 400px);
+    margin: 0px 200px;
+    float: left;
+    background: white;
+    box-shadow: 0px 1px 4px 2px #e2dfdf;
+    padding-bottom: 30px;
+    min-height: 100%;
+ 
+    .schedule_details{
+        width: 100%;
+        float: left;
+        h5{
+            text-align: center;
+            background: blue;
+            padding: 10px 20px;
+            color: white;
+            font-size: 16px;
+            margin: 0px 0px 20px 0px;
+            
+        }
+        .mat-elevation{
+            .mat-table {
+                width: 100%;
+                border-spacing: 0;
+                thead{
+                    tr{
+                        height: 40px;
+                        th{
+                            text-align: center;
+                            color: black;
+                            font-size: 14px;
+                          &:first-of-type {
+                            padding-left: 0px;
+                          }
+                          &:last-of-type{
+                            padding-right: 0px;
+                          }
+                        }
+                    }
+                }
+                tbody{
+                    tr{
+                        height: 42px;
+                        td{
+                            text-align: center;
+                            &:first-of-type {
+                                padding-left: 0px;
+                              }
+                              &:last-of-type{
+                                padding-right: 0px;
+                              }
+                        }
+                        &:hover{
+                           background-color: #f7f7f7;
+                           cursor: pointer;
+                        }
+                    }
+                }
+            }
+            .mat-error{
+                text-align: center;
+                height: 200px;
+                font-size: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    }
+  .active-room {
+    background-color: grey;
+  }
+}
+
+
+.activef{
+    color: red;
+}
+.activei{
+    color: green;
+}
+.activeb{
+    color: orange;
+}
+
+

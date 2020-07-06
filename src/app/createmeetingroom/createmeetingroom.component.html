@@ -1,0 +1,49 @@
+<div class="main">
+    <div class="booking_meeting_header">
+      <h5>Book Meeting Room</h5>
+    </div>
+    <div class="booking_form_details">
+      <mat-form-field class="example-full-width">
+        <mat-label>User Name</mat-label>
+        <input matInput [formControl]="userNameForm" required>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <mat-label>Booking Date</mat-label>
+        <input matInput [min]="minimumDate" [matDatepickerFilter]="myFilter" [formControl]="bookingDateForm"
+          [matDatepicker]="picker">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+  
+      <div class="booking_time_details">
+        <input placeholder="Booking From Time" class="fromdate" [formControl]="fromtimeForm"
+          [(ngModel)]="minimumstarttime" (ngModelChange)="visibleDate()" [ngxTimepicker]="range" min="09:00 am"
+          max="10:00 pm" readonly>
+        <ngx-material-timepicker #range></ngx-material-timepicker>
+      </div>
+  
+      <div class="booking_time_details">
+        <input placeholder="Booking To Time" class="todate" [formControl]="totimeForm" [(ngModel)]="endtimee"
+          [ngxTimepicker]="range1" [min]="minimumstarttime" max="10:00 pm" [disabled]="timedisable" readonly>
+        <ngx-material-timepicker #range1></ngx-material-timepicker>
+      </div>
+  
+      <mat-form-field>
+        <mat-select placeholder="Room Number" [formControl]="bookingroomNameForm" required>
+          <mat-option *ngFor="let rmno of getRooms()" [value]="rmno.value">{{rmno.value}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+  
+  
+      <mat-form-field>
+        <mat-label>Reason For Booking</mat-label>
+        <input matInput [formControl]="reasonForm" required>
+      </mat-form-field>
+      <div class="form_submit">
+        <button mat-raised-button color="primary" (click)="submitBooking()">Submit</button>
+      </div>
+    </div>
+   
+  </div>
