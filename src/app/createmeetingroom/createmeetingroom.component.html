@@ -19,13 +19,13 @@
       <div class="booking_time_details">
         <input placeholder="Booking From Time" class="fromdate" [formControl]="fromtimeForm"
           [(ngModel)]="minimumstarttime" (ngModelChange)="visibleDate()" [ngxTimepicker]="range" min="09:00 am"
-          max="10:00 pm" readonly>
+          max="06:00 pm" readonly>
         <ngx-material-timepicker #range></ngx-material-timepicker>
       </div>
   
       <div class="booking_time_details">
         <input placeholder="Booking To Time" class="todate" [formControl]="totimeForm" [(ngModel)]="endtimee"
-          [ngxTimepicker]="range1" [min]="minimumstarttime" max="10:00 pm" [disabled]="timedisable" readonly>
+          [ngxTimepicker]="range1" [min]="minimumstarttime" max="06:00 pm" [disabled]="timedisable" readonly>
         <ngx-material-timepicker #range1></ngx-material-timepicker>
       </div>
   
