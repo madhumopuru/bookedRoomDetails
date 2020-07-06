@@ -31,7 +31,7 @@
   
       <mat-form-field>
         <mat-select placeholder="Room Number" [formControl]="bookingroomNameForm" required>
-          <mat-option *ngFor="let rmno of getRooms()" [value]="rmno.value">{{rmno.value}}</mat-option>
+          <mat-option *ngFor="let rmno of roomNames()" [value]="rmno.value">{{rmno.value}}</mat-option>
         </mat-select>
       </mat-form-field>
   

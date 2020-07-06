@@ -120,6 +120,9 @@ export class CreatemeetingroomComponent implements OnInit {
     }
     params["boodedReason"] = this.reasonForm.value;
 
+    // this.count = this.count + 1;
+    // params["bookedcount"] = this.count;
+
     let starttime = moment(this.fromtimeForm.value, 'hh:mm a');
 
     let startMoment = moment(this.bookingDateForm.value)
@@ -151,7 +154,7 @@ export class CreatemeetingroomComponent implements OnInit {
    localStorage.setItem('itemsArray', JSON.stringify(oldItems));
    var bookedArrayData = JSON.parse(localStorage.getItem('itemsArray'));
 
-    //console.log(bookedArrayData);
+    console.log(bookedArrayData);
 
     this.router.navigate(['meetingRoomDetails']);
 
